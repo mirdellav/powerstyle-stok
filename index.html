@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>POWERSTYLE | Stok Yönetimi</title>
+    <link rel="stylesheet" href="style.css" />
+    <!-- Supabase Bağlantı SDK'sı -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+      // Supabase Yapılandırması
+      const SUPABASE_URL = 'https://cfpiymdchzhjnswskqcg.supabase.co';
+      const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNmcGl5bWRjaHpoam5zd3NrcWNnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc4NjM5NjQsImV4cCI6MjEwMzQzOTk2NH0.WdarVBgGnREZsKHrQdf7Mjqu4IbmEP61-aXT1GcF8L0'; // Supabase'deki anon public anahtarınız
+      
+      const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    </script>
+  </head>
+  <body>
+    <aside class="sidebar">
+      <div class="brand"><span class="brand-mark">P</span><div><strong id="companyName">POWERSTYLE</strong><small>STOK YÖNETİMİ</small></div></div>
+      <nav>
+        <button class="nav-button active" data-view="dashboard">⌂ <span>Genel Bakış</span></button>
+        <button class="nav-button" data-view="inventory">▦ <span>Ürünler</span></button>
+        <button class="nav-button" data-view="movements">⇄ <span>Stok Hareketleri</span></button>
+        <button class="nav-button" data-view="reports">◔ <span>Raporlar</span></button>
+      </nav>
+      <div class="side-footer">Yerel veri saklama<br><span id="saveStatus">Hazır</span></div>
+    </aside>
+    <main>
+      <header><div><p id="dateLabel"></p><h1 id="pageTitle">Genel Bakış</h1></div><div class="header-actions"><button class="ghost" id="exportBtn">⇩ Excel uyumlu dışa aktar</button><button class="primary" id="quickMovement">+ Stok Hareketi</button></div></header>
+      <section id="dashboard" class="view active"></section>
+      <section id="inventory" class="view"></section>
+      <section id="movements" class="view"></section>
+      <section id="reports" class="view"></section>
+    </main>
+    <dialog id="movementDialog"><form method="dialog" id="movementForm"><div class="modal-head"><div><p>STOK HAREKETİ</p><h2>Giriş, çıkış veya konum transferi</h2></div><button type="button" aria-label="Kapat" class="close">×</button></div><div class="form-grid"><label>Hareket tipi<select id="movementType"><option value="in">Stok girişi</option><option value="out">Stok çıkışı</option><option value="transfer">Konumlar arası transfer</option></select></label><label>Ürün<select id="movementProduct"></select></label><label id="fromLocationWrap">Kaynak konum<select id="fromLocation"></select></label><label id="toLocationWrap">Hedef konum<select id="toLocation"></select></label><label>Adet<input id="movementQuantity" type="number" min="1" required placeholder="0" /></label><label>Tarih<input id="movementDate" type="date" required /></label><label class="full">Not / referans<input id="movementNote" maxlength="120" placeholder="Örn. tedarikçi faturası veya sipariş no" /></label></div><div class="modal-actions"><button class="ghost" value="cancel">Vazgeç</button><button class="primary" value="default">Hareketi Kaydet</button></div></form></dialog>
+    <dialog id="productDialog"><form method="dialog" id="productForm"><div class="modal-head"><div><p>ÜRÜN BİLGİSİ</p><h2 id="productDialogTitle">Yeni ürün ekle</h2></div><button type="button" aria-label="Kapat" class="close">×</button></div><input id="productId" type="hidden"><div class="form-grid"><label>SKU<input id="sku" required /></label><label>Ürün adı<input id="productName" required /></label><label>Kategori<input id="category" required /></label><label>Başlangıç stoğu<input id="openingStock" type="number" min="0" required /></label><label>Birim maliyet<input id="cost" type="number" min="0" step="0.01" required /></label><label>Satış fiyatı<input id="price" type="number" min="0" step="0.01" required /></label><label>Minimum stok<input id="minStock" type="number" min="0" required /></label></div><div class="modal-actions"><button class="ghost" value="cancel">Vazgeç</button><button class="primary" value="default">Kaydet</button></div></form></dialog>
+
+    <!-- Mevcut Uygulama Scriptleriniz -->
+    <script src="seed.js"></script>
+    <script src="app2.js"></script>
+    <script src="move-initial-stock-to-vehicle2.js"></script>
+    <script src="add-vehicle.js"></script>
+    <script src="manage-locations-and-movements.js"></script>
+  </body>
+</html>
